@@ -1,9 +1,10 @@
+using NTierArchTestProject.BusinessLogicLayer.Extensions;
 using NTierArchTestProject.DataAccessLayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Registirations
-builder.Services.AddDalCustomService(builder.Configuration);
+//Registirations (Dal,Bll)
+builder.Services.AddDalCustomService(builder.Configuration).AddBllCustomService(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllers();

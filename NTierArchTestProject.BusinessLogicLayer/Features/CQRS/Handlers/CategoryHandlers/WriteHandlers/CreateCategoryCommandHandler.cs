@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using MediatR;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCommands;
 using NTierArchTestProject.DataAccessLayer.Contracts;
@@ -11,10 +12,12 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public CreateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -22,10 +25,8 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
             var isCategoryNameExist = await _categoryRepository.AnyAsync(x => x.Name == request.Name, cancellationToken);
             if (isCategoryNameExist) throw new ArgumentException("Bu kategori Daha önce oluşturulmuş");
 
-            var createValue = new Category()
-            {
-                Name = request.Name
-            };
+            //yeni bir instance türetir 
+            var createValue = _mapper.Map<Category>(request);
 
             await _categoryRepository.CreateAsync(createValue,cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCommands;
 using NTierArchTestProject.DataAccessLayer.Contracts;
 using NTierArchTestProject.DataAccessLayer.UnitOfWorkPattern;
@@ -11,10 +12,12 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unifOfWork;
-        public UpdateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unifOfWork)
+        private readonly IMapper _mapper;
+        public UpdateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unifOfWork, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _unifOfWork = unifOfWork;
+            _mapper = mapper;
         }
         public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
@@ -25,11 +28,13 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
             {
                 var isCategoryNameExist = await _categoryRepository.AnyAsync(x => x.Name == request.Name, cancellationToken);
                 if (isCategoryNameExist) throw new ArgumentException("Bu kategori daha önce oluşturulmuş");
-
-                category.Name = request.Name;
-
-                await _unifOfWork.CommitAsync(cancellationToken);
+               
             }
+
+            //category.Name = request.Name;
+            //create deki gibi yeni bir instance değilde set etme gibi düşün
+            _mapper.Map(request, category);
+            await _unifOfWork.CommitAsync(cancellationToken);
         }
     }
 }
