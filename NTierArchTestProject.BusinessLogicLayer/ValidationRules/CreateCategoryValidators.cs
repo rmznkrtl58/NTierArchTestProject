@@ -4,9 +4,9 @@ using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCom
 
 namespace NTierArchTestProject.BusinessLogicLayer.ValidationRules
 {
-    internal sealed class CategoryValidators:AbstractValidator<CreateCategoryCommand>
+    public sealed class CreateCategoryValidators:AbstractValidator<CreateCategoryCommand>
     {  //şimdilik ekleme için kullanıyorum
-        public CategoryValidators()
+        public CreateCategoryValidators()
         {
             RuleFor(p => p.Name).NotEmpty().WithMessage("Kategori adı boş olamaz");
             RuleFor(p => p.Name).NotNull().WithMessage("Kategori adı boş olamaz");

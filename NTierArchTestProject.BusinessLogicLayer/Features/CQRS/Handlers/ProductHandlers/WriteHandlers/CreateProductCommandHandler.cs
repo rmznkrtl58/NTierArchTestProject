@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.ProductHandlers.WriteHandlers
 {
-    internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand>
+    internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,Unit>
     {
         private readonly IProductRepository _pRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -25,7 +25,7 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Product
             _mapper = mapper;
         }
 
-        public async Task Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var isProductNameExist = await _pRepository.AnyAsync(x => x.Name == request.Name, cancellationToken);
             if (isProductNameExist) throw new ArgumentException("Bu Ürün Daha önce oluşturulmuş");
@@ -33,6 +33,7 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Product
             var createValue= _mapper.Map<Product>(request);
             await _pRepository.CreateAsync(createValue, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
+            return Unit.Value;//boş bir cevap dönderir yapı gereği mutlaka böyle yazılmalı
         }
     }
 }

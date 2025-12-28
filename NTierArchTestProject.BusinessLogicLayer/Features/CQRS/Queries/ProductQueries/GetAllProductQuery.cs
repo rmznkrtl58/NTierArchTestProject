@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Queries.ProductQueries
 {
-    internal sealed class GetAllProductQuery:IRequest<IEnumerable<GetAllProductQueryResult>>
+    public sealed class GetAllProductQuery:IRequest<IEnumerable<GetAllProductQueryResult>>
     {
     }
 }

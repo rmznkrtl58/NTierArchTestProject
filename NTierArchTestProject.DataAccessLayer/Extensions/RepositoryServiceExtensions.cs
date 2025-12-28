@@ -36,6 +36,7 @@ namespace NTierArchTestProject.DataAccessLayer.Extensions
             services.AddScoped<IProductRepository,ProductRepository>();
             services.AddScoped<ICategoryRepository,CategoryRepository>();
             services.AddScoped<IUserRoleRepository,UserRoleRepository>();
+            services.AddScoped<IRoleRepository,RoleRepository>();
             return services;
         }
     }

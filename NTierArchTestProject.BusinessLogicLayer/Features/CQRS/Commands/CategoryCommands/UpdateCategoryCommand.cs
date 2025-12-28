@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCommands
 {
-    internal record class UpdateCategoryCommand(Guid Id,string Name):IRequest;
+    public record class UpdateCategoryCommand(Guid Id,string Name):IRequest;
 }

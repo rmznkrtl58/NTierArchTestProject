@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCommands
 {
-    internal sealed record class DeleteCategoryCommand(Guid Id):IRequest;
+    public sealed record class DeleteCategoryCommand(Guid Id):IRequest;
 }

@@ -17,5 +17,6 @@ namespace NTierArchTestProject.DataAccessLayer.Contracts
         void Delete(T t);
         //Check
         Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);//ilgili şarta göre mevcut mu? mevcutsa true değilse false
+        bool Any(Expression<Func<T, bool>> filter);
     }
 }

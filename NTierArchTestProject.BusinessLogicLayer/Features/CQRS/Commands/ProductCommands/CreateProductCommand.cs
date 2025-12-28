@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.ProductCommands
 {
-    internal sealed record class CreateProductCommand(string Name, decimal Price, int Quantity, Guid CategoryId):IRequest;
+    public sealed record class CreateProductCommand(string Name, decimal Price, int Quantity, Guid CategoryId):IRequest<Unit>;//Unit Boş bir değer olarak algılar validation behaviorda hep bir değer beklediğimiz için böyle yazdık aslında önemli değil ama yapının çalışması için gerekli
 }
+

@@ -13,6 +13,11 @@ namespace NTierArchTestProject.DataAccessLayer.Repositories
             _context = context;
         }
 
+        public bool Any(Expression<Func<T, bool>> filter)
+        {
+            return _context.Set<T>().Any(filter);
+        }
+
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
         {
             var anyStatus = await _context.Set<T>().AnyAsync(filter, cancellationToken);

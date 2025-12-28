@@ -8,7 +8,7 @@ using NTierArchTestProject.NTierArchTestProject.CoreLayer.Entities;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.CategoryHandlers.WriteHandlers
 {
-    internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand>
+    internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand,Unit>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -19,8 +19,7 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public async Task Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var isCategoryNameExist = await _categoryRepository.AnyAsync(x => x.Name == request.Name, cancellationToken);
             if (isCategoryNameExist) throw new ArgumentException("Bu kategori Daha önce oluşturulmuş");
@@ -30,6 +29,7 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
 
             await _categoryRepository.CreateAsync(createValue,cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
+            return Unit.Value;//boş bir cevap dönderir yapı gereği mutlaka böyle yazılmalı
         }
     }
 }

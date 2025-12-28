@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.DataAccessLayer.Context
 {
-    internal sealed class AppDbContext:IdentityDbContext<AppUser,AppRole,Guid>
+    public sealed class AppDbContext:IdentityDbContext<AppUser,AppRole,Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext>options):base(options)
         {

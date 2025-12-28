@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Queries.CategoryQueries
 {
-    internal sealed class GetCategoryByIdQuery:IRequest<GetCategoryByIdQueryResult> 
+    public sealed class GetCategoryByIdQuery:IRequest<GetCategoryByIdQueryResult> 
     {
         public Guid Id { get; set; }
         public GetCategoryByIdQuery(Guid id)

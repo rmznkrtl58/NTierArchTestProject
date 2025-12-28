@@ -11,8 +11,7 @@ namespace NTierArchTestProject.BusinessLogicLayer.Behaviors
 {
     public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : class,
-        IRequest<TResponse>,
-        IRequest
+        IRequest<TResponse>
     {
         //AbstractValidator Inherit etmiş sınıflarım için liste halinde tuttum
         private readonly IEnumerable<IValidator<TRequest>> _validators;

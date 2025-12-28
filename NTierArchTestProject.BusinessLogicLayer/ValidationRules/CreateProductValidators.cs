@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.ValidationRules
 {
-    internal sealed class ProductValidators:AbstractValidator<CreateProductCommand>
+    public sealed class CreateProductValidators:AbstractValidator<CreateProductCommand>
     {
         //şimdilik ekleme için kullanıyorum
-        public ProductValidators()
+        public CreateProductValidators()
         {
             RuleFor(p => p.Name).NotEmpty().WithMessage("Ürün adı boş olamaz");
             RuleFor(p => p.Name).NotNull().WithMessage("Ürün adı boş olamaz");

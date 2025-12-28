@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Queries.ProductQueries;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Results.ProductResults;
@@ -10,16 +11,19 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Product
     internal sealed class GetAllProductQueryHandler : IRequestHandler<GetAllProductQuery, IEnumerable<GetAllProductQueryResult>>
     {
         private readonly IProductRepository _pRepository;
+        private readonly IMapper _mapper;
 
-        public GetAllProductQueryHandler(IProductRepository pRepository)
+        public GetAllProductQueryHandler(IProductRepository pRepository, IMapper mapper)
         {
             _pRepository = pRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<GetAllProductQueryResult>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
         {
             var values = await _pRepository.GetListAll().OrderBy(x => x.Id).ToListAsync();
-            return values.Select(x => new GetAllProductQueryResult(x.Id, x.Name, x.Price, x.Quantity, x.CategoryId));
+            var mapValue = _mapper.Map<IEnumerable<GetAllProductQueryResult>>(values);
+            return mapValue;
         }
     }
 }

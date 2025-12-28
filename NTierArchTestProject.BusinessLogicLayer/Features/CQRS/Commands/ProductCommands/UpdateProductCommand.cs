@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.ProductCommands
 {
 
-    internal sealed record class UpdateProductCommand(Guid Id, string Name, decimal Price, int Quantity, Guid CategoryId):IRequest;
+    public sealed record class UpdateProductCommand(Guid Id, string Name, decimal Price, int Quantity, Guid CategoryId):IRequest;
 }
 
 

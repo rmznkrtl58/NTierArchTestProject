@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Queries.ProductQueries
 {
-    internal sealed class GetProductByIdQuery:IRequest<GetProductByIdQueryResult>
+    public sealed class GetProductByIdQuery:IRequest<GetProductByIdQueryResult>
     {
         public Guid Id { get; set; }
         public GetProductByIdQuery(Guid id)

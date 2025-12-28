@@ -1,20 +1,18 @@
 using NTierArchTestProject.BusinessLogicLayer.Extensions;
 using NTierArchTestProject.DataAccessLayer.Extensions;
+using NTierArchTestProject.WebAPI.Extensions;
 
+//DI Container
 var builder = WebApplication.CreateBuilder(args);
 
-//Registirations (Dal,Bll)
-builder.Services.AddDalCustomService(builder.Configuration).AddBllCustomService(builder.Configuration);
+//Registirations (Dal,Bll,Presentation)
+builder.Services.AddDalCustomService(builder.Configuration)
+.AddBllCustomService(builder.Configuration)
+.AddCustomApiService(builder.Configuration);
 
-// Add services to the container.
-builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+//Middleware
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -23,8 +21,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

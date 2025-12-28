@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.ProductCommands
 {
-    internal sealed class DeleteProductCommand:IRequest
+    public sealed class DeleteProductCommand:IRequest
     {
         public Guid Id { get; set; }
         public DeleteProductCommand(Guid id)

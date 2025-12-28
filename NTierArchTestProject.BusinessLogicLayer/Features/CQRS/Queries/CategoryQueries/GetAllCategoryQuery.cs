@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Queries.CategoryQueries
 {
-    internal sealed class GetAllCategoryQuery:IRequest<IEnumerable<GetAllCategoryQueryResult>>;
+    public sealed class GetAllCategoryQuery:IRequest<IEnumerable<GetAllCategoryQueryResult>>;
 }
