@@ -1,5 +1,5 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
+using ErrorOr;
 using MediatR;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.CategoryCommands;
 using NTierArchTestProject.DataAccessLayer.Contracts;
@@ -8,7 +8,7 @@ using NTierArchTestProject.NTierArchTestProject.CoreLayer.Entities;
 
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.CategoryHandlers.WriteHandlers
 {
-    internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand,Unit>
+    internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand,ErrorOr<Unit>>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -19,10 +19,10 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.Categor
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<Unit> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Unit>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var isCategoryNameExist = await _categoryRepository.AnyAsync(x => x.Name == request.Name, cancellationToken);
-            if (isCategoryNameExist) throw new ArgumentException("Bu kategori Daha önce oluşturulmuş");
+            if (isCategoryNameExist) return Error.Conflict("NameIsExist","Bu kategori Daha önce oluşturulmuş");
 
             //yeni bir instance türetir 
             var createValue = _mapper.Map<Category>(request);

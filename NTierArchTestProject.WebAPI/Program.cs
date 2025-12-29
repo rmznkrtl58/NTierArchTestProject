@@ -1,6 +1,7 @@
 using NTierArchTestProject.BusinessLogicLayer.Extensions;
 using NTierArchTestProject.DataAccessLayer.Extensions;
 using NTierArchTestProject.WebAPI.Extensions;
+using NTierArchTestProject.WebAPI.Middleware;
 
 //DI Container
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

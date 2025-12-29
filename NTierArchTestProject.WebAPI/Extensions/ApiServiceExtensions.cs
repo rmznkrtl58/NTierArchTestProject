@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NTierArchTestProject.CoreLayer.Options;
+using NTierArchTestProject.WebAPI.Middleware;
 using System.Text;
 
 namespace NTierArchTestProject.WebAPI.Extensions
@@ -61,6 +62,9 @@ namespace NTierArchTestProject.WebAPI.Extensions
                     { jwtSecuritySheme, Array.Empty<string>() }
                 });
             });
+
+            //Middleware class configuration
+            services.AddTransient<ExceptionMiddleware>();//her çağrıldığında bir instance oluştur.
 
             return services;
         }

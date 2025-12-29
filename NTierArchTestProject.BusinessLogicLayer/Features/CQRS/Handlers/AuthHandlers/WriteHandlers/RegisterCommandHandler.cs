@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using NTierArchTestProject.BusinessLogicLayer.Events;
+using NTierArchTestProject.BusinessLogicLayer.Events.UserEvents;
 using NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Commands.AuthCommands;
 using NTierArchTestProject.DataAccessLayer.Identity.Entities;
 namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.AuthHandlers.WriteHandlers
@@ -7,9 +9,11 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.AuthHan
     internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Unit>
     {
         private readonly UserManager<AppUser> _userManager;
-        public RegisterCommandHandler(UserManager<AppUser> userManager)
+        private readonly IMediator _mediator;
+        public RegisterCommandHandler(UserManager<AppUser> userManager, IMediator mediator)
         {
             _userManager = userManager;
+            _mediator = mediator;
         }
         public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
@@ -27,6 +31,9 @@ namespace NTierArchTestProject.BusinessLogicLayer.Features.CQRS.Handlers.AuthHan
                 Id = Guid.NewGuid()
             };
             await _userManager.CreateAsync(createUser,request.Password);
+
+            //Event tabanlı çağırma
+            await _mediator.Publish(new UserDomainEvent(createUser));
 
             return Unit.Value;
         }

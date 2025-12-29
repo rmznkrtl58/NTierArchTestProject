@@ -17,7 +17,8 @@ namespace NTierArchTestProject.WebAPI.Controllers
 
         public async Task<IActionResult> Create(CreateCategoryCommand p,CancellationToken cancellationToken)
         {
-            await _mediator.Send(p, cancellationToken);
+            var response=await _mediator.Send(p, cancellationToken);
+            if (response.IsError) return BadRequest(response.FirstError);//"serviceResult" ErrorOg kütüphanesiyle kullanıp busines tarafta verdik
             return StatusCode(StatusCodes.Status201Created);
         }
         [HttpPut]
